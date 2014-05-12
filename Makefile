@@ -10,18 +10,15 @@ MCFRAME = -framework OpenGL -framework GLUT -framework GLUI
 
 TARGET = run
 
-CFILES = main.cpp particle.cpp particle_system.cpp fountain.cpp remcofountain.cpp firefountain.cpp common/shader.cpp common/texture.cpp ppm.cpp 
+CFILES = main.cpp particle.cpp particle_system.cpp fountain.cpp common/shader.cpp common/texture.cpp ppm.cpp 
 
-all: louis
+all: jayme
 
-louis: $(CFILES)
+jayme: $(CFILES)
 	$(CC) $(LCFLAGS_QUIET) $(CFILES) $(LLFLAGS) -o $(TARGET)
 
 v: $(CFILES) 
 	$(CC) $(LCFLAGS_VERBOSE) $(CFILES) $(LLFLAGS) -o $(TARGET)
-
-jayme: $(CFILES)
-	$(CC) $(MCFLAGS) $(CFILES) -I $(MCLIBS) $(MCFRAME) -o $(TARGET)
 
 clean:
 	rm $(TARGET)
