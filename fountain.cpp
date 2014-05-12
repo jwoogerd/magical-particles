@@ -5,12 +5,27 @@
 Fountain::Fountain(particle_type system_type)
 {
     this->system_type = system_type;
-    max_particles = 10000;
+    this->particle_size = 10;
+    this->max_particles = 10000;
     vertex_shader = "shaders/colorparticle.vert"; 
     fragment_shader = "shaders/colorparticle.frag"; 
     texture_file = "shaders/particle.dds";
     spread = 1.0f; 
-    particle_size = 10;
+    radius = 1.5f;
+    main_direction = Vector(0.0, 12.0, 0.0);
+    gravity = Vector(0.0f, -9.81f, 0.0f);
+}
+
+Fountain::Fountain(particle_type system_type, int particle_size, 
+                   int max_particles, float spread, std::string *files)
+{
+    this->system_type = system_type;
+    this->particle_size = particle_size;
+    this->max_particles = max_particles;
+    this->spread = spread;
+    vertex_shader = files[0];
+    fragment_shader = files[1];
+    texture_file = files[2];
     radius = 1.5f;
     main_direction = Vector(0.0, 12.0, 0.0);
     gravity = Vector(0.0f, -9.81f, 0.0f);
@@ -73,4 +88,10 @@ void Fountain::computeParticles()
     if (system_type == POINTS) {
         glEnd();
     }
+}
+
+void Fountain::setHuman(std::string imagefile, std::string fragfile) 
+{
+    texture_file = imagefile;
+    fragment_shader = fragfile;
 }

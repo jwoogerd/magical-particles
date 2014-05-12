@@ -13,9 +13,6 @@
 #include <GL/glui.h>
 #include <math.h>
 #include "fountain.h"
-#include "firefountain.h"
-#include "remcofountain.h"
-
 
 /* These are the live variables passed into GLUI */
 int main_window;
@@ -42,15 +39,27 @@ enum Human {
     SOPHIE
 };
 
+std::string fountain_files[] = {"shaders/colorparticle.vert",
+                                "shaders/colorparticle.frag", 
+                                "shaders/particle.dds"};
 
+std::string fire_files[] = {"shaders/fireparticle.vert",
+                            "shaders/fireparticle.frag",
+                            "shaders/firesprite.ppm"};
+
+
+std::string remco_files[] = {"shaders/remcoparticle.vert",
+                            "shaders/remcoparticle.frag",
+                            "shaders/remcochang.ppm"};
 
 SystemType current_number;
 Human current_human_number;
 
+
 Fountain pointfountain(POINTS);
-Fountain fountain(DDS);
-RemcoFountain remcofountain;
-FireFountain firefountain;
+Fountain fountain(DDS, 10, 10000, 1.0, fountain_files);
+Fountain remcofountain(IMAGE, 10, 1000, 5.0, remco_files);
+Fountain firefountain(IMAGE, 15, 1000, 2.0, fire_files);
 
 ParticleSystem *current_system = &pointfountain;
 int display_axes = false;
@@ -205,19 +214,11 @@ void myGlutDisplay(void)
 	glutSwapBuffers();
 }
 
-/*  ==========================================
-	Clean up all dynamically allocated memory
-	========================================== */
-void onExit()
-{
-
-}
-
 void reset() {
     pointfountain = Fountain(POINTS);
-    fountain = Fountain(DDS);
-    firefountain = FireFountain();
-    remcofountain = RemcoFountain();
+    fountain = Fountain(DDS, 10, 10000, 1.0, fountain_files);
+    remcofountain = Fountain(IMAGE, 10, 1000, 5.0, remco_files);
+    firefountain = Fountain(IMAGE, 15, 1000, 2.0, fire_files);
     callbackHuman(-1);
 
     memset(view_rotate, 0, sizeof(float) * 16);
@@ -232,8 +233,6 @@ void reset() {
 
 int main(int argc, char* argv[])
 {
-	atexit(onExit);
-
 	/****************************************/
 	/*   Initialize GLUT and create window  */
 	/****************************************/
@@ -257,7 +256,6 @@ int main(int argc, char* argv[])
 	/* Ensure that instancing is supported by GPU */	
     if (!GL_ARB_draw_instanced || !GL_ARB_instanced_arrays) {
         fprintf(stderr, "This GPU does not support instancing.");
-        onExit();
         exit(-1);
     }
 
