@@ -1,6 +1,6 @@
 readme
 =======
-For a demo please see [jwoogerd.github.io/particles.html](jwoogerd.github.io/particles.html).
+For a demo please see [jwoogerd.github.io/particles](http://jwoogerd.github.io/particles.html)
 ## Description
 This is the final project for [comp175](www.cs.tufts.edu/comp/175) (graphics) by Jayme Woogerd and Louis Rassaby.
 
